@@ -1,2 +1,5 @@
-#第一个社区项目
-#第一次使用GitHub
+##小白社区
+##使用工具
+[Git](https://git-scm.com/download)
+
+[Visual Paradigm](https://www.visual-paradigm.com)
