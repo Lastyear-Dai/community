@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import xyz.lastyear.community.dto.QaginationDTO;
 import xyz.lastyear.community.dto.QuestionDTO;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.User;
@@ -20,7 +22,9 @@ public class IndexController {
     @Autowired
     QuestionService questionService;
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model){
+    public String index(HttpServletRequest request, Model model,
+                        @RequestParam(value = "page",defaultValue = "1")Integer page,
+                        @RequestParam(value = "number",defaultValue = "10")Integer number){
         Cookie[] cookies = request.getCookies();
         if(cookies!=null&&cookies.length!=0)
         {
@@ -35,7 +39,7 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> list = questionService.list();
+        QaginationDTO list = questionService.list(page,number);
         model.addAttribute("list",list);
         return "index";
 

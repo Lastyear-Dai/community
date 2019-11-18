@@ -3,6 +3,7 @@ package xyz.lastyear.community.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.lastyear.community.dto.QaginationDTO;
 import xyz.lastyear.community.dto.QuestionDTO;
 import xyz.lastyear.community.mapper.QuestionMapper;
 import xyz.lastyear.community.mapper.UserMapper;
@@ -19,8 +20,24 @@ public class QuestionService {
     UserMapper userMapper;
 @Autowired(required = false)
     QuestionMapper questionMapper;
-public List<QuestionDTO> list(){
-    List<Question>  list=questionMapper.queryQuestion();
+public QaginationDTO list(Integer page, Integer number){
+    QaginationDTO qaginationDTO = new QaginationDTO();
+   /*当前页码*/
+    qaginationDTO.setPage(page);
+    /*每页的个数*/
+    qaginationDTO.setNumber(number);
+    /*总页数*/
+    int count=questionMapper.countQuestion();//数据总个数
+
+    if(count%number==0){
+         qaginationDTO.setPages(count/number);
+    }else{
+        qaginationDTO.setPages(count/number+1);
+    }
+
+
+    Integer limit=(page-1)*number;
+    List<Question>  list=questionMapper.queryQuestion(limit,number);
     List<QuestionDTO> questionDTOs= new ArrayList<>();
 
     for(int i=0;i<list.size();i++){
@@ -31,8 +48,8 @@ public List<QuestionDTO> list(){
         questionDTOs.add(i,questionDTO);
 
     }
-
-    return questionDTOs;
+    qaginationDTO.setQuestionDTOs(questionDTOs);
+    return qaginationDTO;
 }
 
 }
