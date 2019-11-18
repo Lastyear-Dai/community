@@ -63,7 +63,7 @@
                 <div class="media-body">
                     <h4 class="media-heading" th:text="${question.title}"></h4>
                     [[${question.description}]]
-                    <br><span style="font-size: 12px;font-weight: normal;color: #999">[[${question.comment_count}]]个回复·[[${question.view_count}]]次浏览·1小时前</span>
+                    <br><span style="font-size: 12px;font-weight: normal;color: #999">[[${question.comment_count}]]个回复·[[${question.view_count}]]次浏览·<span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
         </div>
