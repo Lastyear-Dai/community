@@ -25,20 +25,7 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(value = "page",defaultValue = "1")Integer page,
                         @RequestParam(value = "number",defaultValue = "10")Integer number){
-        Cookie[] cookies = request.getCookies();
-        if(cookies!=null&&cookies.length!=0)
-        {
-            for (Cookie cookie:cookies) {
-                if (cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    User user = userMapper.queryuser(token);
-                    if (user!=null) {
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+
         QaginationDTO list = questionService.list(page,number);
         model.addAttribute("list",list);
         return "index";

@@ -14,6 +14,10 @@ public interface QuestionMapper {
     void Insert(Question question);
     @Select("select * from question limit #{limit},#{number}")
     List<Question> queryQuestion(Integer limit, Integer number);
+    @Select("select * from question where creator = #{id}  limit #{limit},#{number}")
+    List<Question> queryMyQuestion(Integer id,Integer limit, Integer number);
     @Select("select count(*) from question")
     Integer countQuestion();
+    @Select("select count(*) from question where creator = #{id}")
+    Integer countMyQuestion(Integer id);
 }
