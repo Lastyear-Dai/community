@@ -84,4 +84,13 @@ public QaginationDTO Mylist(Integer id,Integer page,Integer number){
     return qaginationDTO;
 }
 
+public QuestionDTO question(Integer id){
+    QuestionDTO questionDTO = new QuestionDTO();
+    Question question = questionMapper.question(id);
+    BeanUtils.copyProperties(question,questionDTO);
+    User user = userMapper.findByid(question.getCreator());
+    questionDTO.setUser(user);
+    return questionDTO;
+}
+
 }
