@@ -13,6 +13,7 @@ import xyz.lastyear.community.service.QuestionService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -30,6 +31,14 @@ public class IndexController {
         model.addAttribute("list",list);
         return "index";
 
+    }
+    @GetMapping("/exitlogin")
+    public String exitlogin(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie token = new Cookie("token", null);
+        token.setMaxAge(0);
+        response.addCookie(token);
+        return "redirect:/";
     }
 
 }

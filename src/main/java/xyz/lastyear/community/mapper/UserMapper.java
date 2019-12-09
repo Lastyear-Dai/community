@@ -1,9 +1,6 @@
 package xyz.lastyear.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import xyz.lastyear.community.model.User;
 
 @Mapper
@@ -14,4 +11,6 @@ public interface UserMapper {
     User queryuser(@Param("token") String token);
     @Select("select * from user where id = #{creator}")
     User findByid(Integer creator);
+    @Update("update user set name=#{name} ,token=#{token} ,avatar_url=#{avatar_url},gmt_create=#{gmt_create},gmt_create=#{gmt_create} where account_id=#{account_id}")
+    void update(User iduser);
 }

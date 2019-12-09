@@ -10,6 +10,7 @@ import xyz.lastyear.community.dto.GithubUser;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.User;
 import xyz.lastyear.community.provider.Githubprovider;
+import xyz.lastyear.community.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class AuthorizeController {
     @Autowired
     Githubprovider githubprovider;
+    @Autowired
+    UserService userService;
     @Autowired(required =  false)
     UserMapper usermapper;
     @Value("${github.redirect.uri}")
@@ -50,8 +53,8 @@ public class AuthorizeController {
         user.setToken(token);
         user.setName(githubUser.getName());
         user.setAvatar_url(githubUser.getAvatar_url());
+        userService.updateuser(user);
 
-        usermapper.insert(user);
         response.addCookie(new Cookie("token",token));
 
 
