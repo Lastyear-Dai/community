@@ -9,8 +9,10 @@ public interface UserMapper {
      public  void insert(User user);
     @Select("select * from user where token = #{token}")
     User queryuser(@Param("token") String token);
-    @Select("select * from user where id = #{creator}")
+    @Select("select * from user where account_id = #{creator}")
     User findByid(Integer creator);
-    @Update("update user set name=#{name} ,token=#{token} ,avatar_url=#{avatar_url},gmt_create=#{gmt_create},gmt_create=#{gmt_create} where account_id=#{account_id}")
+    @Select("select * from user where id = #{creator}")
+    User Byid(Integer creator);
+    @Update("update user set name=#{name} ,token=#{token} ,avatar_url=#{avatar_url},gmt_create=#{gmtCreate},gmt_modified=#{gmtModified} where account_id=#{accountId}")
     void update(User iduser);
 }

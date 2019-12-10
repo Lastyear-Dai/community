@@ -39,10 +39,11 @@ public QaginationDTO list(Integer page, Integer number){
     Integer limit=(page-1)*number;
     List<Question>  list=questionMapper.queryQuestion(limit,number);
     List<QuestionDTO> questionDTOs= new ArrayList<>();
-
+    Integer  creator;
     for(int i=0;i<list.size();i++){
         QuestionDTO questionDTO = new QuestionDTO();
-        User user = userMapper.findByid(list.get(i).getCreator());
+        creator=list.get(i).getCreator();
+        User user = userMapper.Byid(creator);
         BeanUtils.copyProperties(list.get(i),questionDTO);
         questionDTO.setUser(user);
         questionDTOs.add(i,questionDTO);
@@ -74,7 +75,7 @@ public QaginationDTO Mylist(Integer id,Integer page,Integer number){
 
     for(int i=0;i<list.size();i++){
         QuestionDTO questionDTO = new QuestionDTO();
-        User user = userMapper.findByid(list.get(i).getCreator());
+        User user = userMapper.Byid(list.get(i).getCreator());
         BeanUtils.copyProperties(list.get(i),questionDTO);
         questionDTO.setUser(user);
         questionDTOs.add(i,questionDTO);
@@ -88,9 +89,12 @@ public QuestionDTO question(Integer id){
     QuestionDTO questionDTO = new QuestionDTO();
     Question question = questionMapper.question(id);
     BeanUtils.copyProperties(question,questionDTO);
-    User user = userMapper.findByid(question.getCreator());
+    User user = userMapper.Byid(question.getCreator());
     questionDTO.setUser(user);
     return questionDTO;
 }
 
+    public void updatequestion(Integer id){
+
+    }
 }

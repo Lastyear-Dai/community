@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import xyz.lastyear.community.mapper.QuestionMapper;
@@ -25,6 +26,16 @@ public class PublishController {
         return "publish";
     }
 
+    @GetMapping("publish/{id}")
+    public String updatepublish(@PathVariable("id")Integer id,
+                                Model model){
+        Question question = questionMapper.question(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id",id);
+        return "publish";
+    }
     @PostMapping("publish")
     public String dopublish(@RequestParam("title")String title, @RequestParam("description")String description,
                             @RequestParam("tag")String tag,
@@ -48,7 +59,8 @@ public class PublishController {
 
 
         User user = (User) request.getSession().getAttribute("user");
-
+        //user的accountid出现null  bug 无法处理所以就重新获取
+     //   user.setAccountId(userMapper.Byid(user.getId()).getAccountId());
         if(user==null){
             model.addAttribute("error","用户未登陆！！！");
             return "publish";

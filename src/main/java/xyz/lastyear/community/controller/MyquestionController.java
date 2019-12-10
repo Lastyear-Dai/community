@@ -26,7 +26,9 @@ public class MyquestionController {
                              @PathVariable("action")String action,
                              @RequestParam(value = "page",defaultValue = "1")Integer page,
                              @RequestParam(value = "number", defaultValue = "10")Integer number){
+
         User user = (User) request.getSession().getAttribute("user");
+
         if(user==null){
             model.addAttribute("error","用户未登陆！！！");
             return "redirect:/";
