@@ -1,9 +1,6 @@
 package xyz.lastyear.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import xyz.lastyear.community.model.Question;
 
 import java.util.List;
@@ -22,4 +19,6 @@ public interface QuestionMapper {
     Integer countMyQuestion(Integer id);
     @Select("select * from question where id=#{id}")
     Question question(Integer id);
+    @Update("update  question set title=#{title},description=#{description},tag=#{tag},gmt_create=#{gmt_create},gmt_modified=#{gmt_modified} where id=#{id}")
+    void update(Question question);
 }

@@ -23,6 +23,7 @@
             <h3><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>&nbsp;&nbsp;发起</h3>
            <hr >
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label >问题标题（简单摘要）：</label>
                     <input type="text" class="form-control" th:value="${title}" id="biaoti" name="title" placeholder="问题标题......">

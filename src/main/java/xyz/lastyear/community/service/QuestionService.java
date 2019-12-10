@@ -94,7 +94,11 @@ public QuestionDTO question(Integer id){
     return questionDTO;
 }
 
-    public void updatequestion(Integer id){
-
+    public void updatequestion(Integer id, Question question){
+        if(id!=null){
+                       questionMapper.update(question);
+        }else{
+            questionMapper.Insert(question);
+        }
     }
 }

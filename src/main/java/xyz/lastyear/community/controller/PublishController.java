@@ -11,6 +11,7 @@ import xyz.lastyear.community.mapper.QuestionMapper;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.Question;
 import xyz.lastyear.community.model.User;
+import xyz.lastyear.community.service.QuestionService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ public class PublishController {
     private UserMapper userMapper;
     @Autowired(required = false)
     QuestionMapper questionMapper;
+    @Autowired
+    QuestionService questionService;
     @GetMapping("publish")
     public String publish(){
         return "publish";
@@ -40,7 +43,7 @@ public class PublishController {
     public String dopublish(@RequestParam("title")String title, @RequestParam("description")String description,
                             @RequestParam("tag")String tag,
                             HttpServletRequest request,
-                            Model model){
+                            Model model,@RequestParam(value = "id",required =false )Integer id){
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
@@ -59,13 +62,11 @@ public class PublishController {
 
 
         User user = (User) request.getSession().getAttribute("user");
-        //user的accountid出现null  bug 无法处理所以就重新获取
-     //   user.setAccountId(userMapper.Byid(user.getId()).getAccountId());
+
         if(user==null){
             model.addAttribute("error","用户未登陆！！！");
             return "publish";
         }
-
 
         Question question = new Question();
         question.setTitle(title);
@@ -74,7 +75,8 @@ public class PublishController {
         question.setGmt_modified(question.getGmt_create());
         question.setCreator(user.getId());
         question.setTag(tag);
-        questionMapper.Insert(question);
+        question.setId(id);
+        questionService.updatequestion(id,question);
         return "redirect:/";
     }
 }
