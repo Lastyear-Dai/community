@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.lastyear.community.dto.QaginationDTO;
 import xyz.lastyear.community.dto.QuestionDTO;
+import xyz.lastyear.community.exceptionError.ExceptionCode;
+import xyz.lastyear.community.exceptionError.IExceptionCode;
+import xyz.lastyear.community.exceptionError.myExceptionError;
 import xyz.lastyear.community.mapper.QuestionMapper;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.Question;
@@ -44,12 +47,6 @@ public QaginationDTO list(Integer page, Integer number){
 
     List<Question> list = questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(limit, number));
 
-    System.out.println(list.get(1).getViewCount());
-    System.out.println(list.get(1).getDescription());
-    System.out.println(list.get(1).getCreator());
-    System.out.println(list.get(1).getGmtCreate());
-    System.out.println(list.get(1).getId());
-    System.out.println(list.get(1).getLikeCount());
 
     List<QuestionDTO> questionDTOs= new ArrayList<>();
     Integer  creator;
@@ -59,7 +56,7 @@ public QaginationDTO list(Integer page, Integer number){
 
         BeanUtils.copyProperties(list.get(i),questionDTO);
         questionDTO.setUser(user);
-        System.out.println(questionDTO);
+
         questionDTOs.add(i,questionDTO);
 
     }
@@ -89,8 +86,8 @@ public QaginationDTO Mylist(Integer id,Integer page,Integer number){
 
 
     Integer limit=(page-1)*number;
-
-      List<Question>  list=questionMapper.selectByExampleWithRowbounds(questionExample,
+    QuestionExample questionExample1 = new QuestionExample();
+      List<Question>  list=questionMapper.selectByExampleWithRowbounds(questionExample1,
             new RowBounds(limit,number));
     List<QuestionDTO> questionDTOs= new ArrayList<>();
 
@@ -109,6 +106,9 @@ public QaginationDTO Mylist(Integer id,Integer page,Integer number){
 public QuestionDTO question(Integer id){
     QuestionDTO questionDTO = new QuestionDTO();
     Question question = questionMapper.selectByPrimaryKey(id);
+    if(question==null){
+        throw  new myExceptionError(ExceptionCode.QUESTION_NOT_FOUND);
+    }
     BeanUtils.copyProperties(question,questionDTO);
     User user = userMapper.selectByPrimaryKey(question.getCreator());
     questionDTO.setUser(user);
@@ -119,7 +119,10 @@ public QuestionDTO question(Integer id){
         if(id!=null){
             QuestionExample questionExample2 = new QuestionExample();
             questionExample2.createCriteria().andIdEqualTo(question.getId());
-                       questionMapper.updateByExample(question,questionExample2);
+            int update = questionMapper.updateByExample(question, questionExample2);
+            if(update==0){
+                throw new myExceptionError(ExceptionCode.QUESTION_NOT_FOUND);
+            }
         }else{
 
             questionMapper.insert(question);

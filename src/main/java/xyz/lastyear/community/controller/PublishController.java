@@ -77,6 +77,9 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setTag(tag);
         question.setId(id);
+        question.setCommentCount(0);
+        question.setLikeCount(0);
+        question.setViewCount(0);
         questionService.updatequestion(id,question);
         return "redirect:/";
     }
