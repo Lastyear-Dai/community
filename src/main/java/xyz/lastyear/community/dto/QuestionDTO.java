@@ -1,5 +1,6 @@
 package xyz.lastyear.community.dto;
 
+import javafx.scene.text.Text;
 import lombok.Data;
 import xyz.lastyear.community.model.User;
 
@@ -9,11 +10,11 @@ public class QuestionDTO {
     private String title;
     private String description;
     private String tag;
-    private Long gmt_create;
-    private Long gmt_modified;
+    private Long gmtCreate;
+    private Long gmtModified;
     private Integer creator;
-    private Integer comment_count;
-    private Integer view_count;
-    private Integer like_count;
+    private Integer commentCount;
+    private Integer viewCount;
+    private Integer likeCount;
     private User user;
 }

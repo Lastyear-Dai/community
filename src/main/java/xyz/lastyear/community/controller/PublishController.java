@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import xyz.lastyear.community.mapper.QuestionMapper;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.Question;
@@ -21,7 +22,7 @@ public class PublishController {
     @Autowired(required = false)
     private UserMapper userMapper;
     @Autowired(required = false)
-    QuestionMapper questionMapper;
+    private QuestionMapper questionMapper;
     @Autowired
     QuestionService questionService;
     @GetMapping("publish")
@@ -32,7 +33,7 @@ public class PublishController {
     @GetMapping("publish/{id}")
     public String updatepublish(@PathVariable("id")Integer id,
                                 Model model){
-        Question question = questionMapper.question(id);
+        Question question = questionMapper.selectByPrimaryKey(id);
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
@@ -71,8 +72,8 @@ public class PublishController {
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
-        question.setGmt_create(System.currentTimeMillis());
-        question.setGmt_modified(question.getGmt_create());
+        question.setGmtCreate(System.currentTimeMillis());
+        question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
         question.setTag(tag);
         question.setId(id);

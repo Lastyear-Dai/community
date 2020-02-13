@@ -29,6 +29,7 @@ public class IndexController {
 
         QaginationDTO list = questionService.list(page,number);
         model.addAttribute("list",list);
+
         return "index";
 
     }

@@ -26,13 +26,13 @@
             <div class="media"  th:each="question,infoStat : ${list.questionDTOs}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object headimg" src="" th:src="${question.user.avatar_url}" alt="...">
+                        <img class="media-object headimg" src="" th:src="${question.user.avatarUrl}" alt="...">
                     </a>
                 </div>
                 <div class="media-body">
                     <a th:href="@{'/question/'+${question.id}}"><h4 class="media-heading" th:text="${question.title}"></h4></a>
                     [[${question.description}]]
-                    <br><span style="font-size: 12px;font-weight: normal;color: #999">[[${question.comment_count}]]个回复·[[${question.view_count}]]次浏览·<span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd HH:mm')}"></span></span>
+                    <br><span style="font-size: 12px;font-weight: normal;color: #999">[[${question.commentCount}]]个回复·[[${question.viewCount}]]次浏览·<span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
             <!--分页-->

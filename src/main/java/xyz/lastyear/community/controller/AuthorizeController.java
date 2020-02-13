@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AuthorizeController {
     @Autowired
     Githubprovider githubprovider;
-    @Autowired
+    @Autowired(required =  false)
     UserService userService;
     @Autowired(required =  false)
     UserMapper usermapper;
@@ -52,7 +52,8 @@ public class AuthorizeController {
         String token = UUID.randomUUID().toString();
         user.setToken(token);
         user.setName(githubUser.getName());
-        user.setAvatar_url(githubUser.getAvatar_url());
+
+        user.setAvatarUrl(githubUser.getAvatar_url());
         userService.updateuser(user,request,response);
 
 
