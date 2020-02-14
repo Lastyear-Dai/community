@@ -9,6 +9,7 @@ import xyz.lastyear.community.dto.QuestionDTO;
 import xyz.lastyear.community.exceptionError.ExceptionCode;
 import xyz.lastyear.community.exceptionError.IExceptionCode;
 import xyz.lastyear.community.exceptionError.myExceptionError;
+import xyz.lastyear.community.mapper.QuestionExtMapper;
 import xyz.lastyear.community.mapper.QuestionMapper;
 import xyz.lastyear.community.mapper.UserMapper;
 import xyz.lastyear.community.model.Question;
@@ -20,10 +21,13 @@ import java.util.List;
 
 @Service
 public class QuestionService {
+
 @Autowired(required = false)
     UserMapper userMapper;
 @Autowired(required = false)
     QuestionMapper questionMapper;
+@Autowired(required = false)
+    QuestionExtMapper questionExtMapper;
 public QaginationDTO list(Integer page, Integer number){
     QaginationDTO qaginationDTO = new QaginationDTO();
    /*当前页码*/
@@ -127,5 +131,13 @@ public QuestionDTO question(Integer id){
 
             questionMapper.insert(question);
         }
+    }
+
+    public void udatequestionCreator(Integer id) {
+        Question updatequestion = new Question();
+        updatequestion.setId(id);
+        updatequestion.setViewCount(1);
+        questionExtMapper.upadtecout(updatequestion);
+
     }
 }

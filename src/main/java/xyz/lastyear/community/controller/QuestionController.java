@@ -17,6 +17,9 @@ public class QuestionController {
       @GetMapping("question/{id}")
     public String question(@PathVariable("id")Integer id, Model model){
           QuestionDTO question = questionService.question(id);
+          //累计用户阅读问题的次数
+          questionService.udatequestionCreator(id);
+
           model.addAttribute("question",question);
           return "question";
     }
