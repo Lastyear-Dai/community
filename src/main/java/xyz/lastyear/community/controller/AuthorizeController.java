@@ -35,6 +35,7 @@ public class AuthorizeController {
     public String callback(@RequestParam("code") String  code, @RequestParam("state")String state,
                            HttpServletRequest request,
                            HttpServletResponse response){
+
     AccesstokenDTO accesstokenDTO = new AccesstokenDTO();
     accesstokenDTO.setCode(code);
     accesstokenDTO.setState(state);
@@ -43,8 +44,10 @@ public class AuthorizeController {
     accesstokenDTO.setClient_secret(client_secret);
     String access_token=githubprovider.getAccessToken(accesstokenDTO);
     GithubUser githubUser = githubprovider.GetGithubUser(access_token);
+
     if(githubUser!=null){
         //登陆成功
+
         User user=new User();
         user.setAccountId(String.valueOf(githubUser.getId()));
         user.setGmtCreate(System.currentTimeMillis());

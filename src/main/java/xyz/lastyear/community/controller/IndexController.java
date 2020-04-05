@@ -28,6 +28,7 @@ public class IndexController {
                         @RequestParam(value = "number",defaultValue = "10")Integer number){
 
         QaginationDTO list = questionService.list(page,number);
+
         model.addAttribute("list",list);
 
         return "index";

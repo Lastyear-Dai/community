@@ -27,4 +27,15 @@
     view_count = view_count + #{viewCount}
      where id=#{id}
   </update>
+
+
+  <update id="upadtecomment_count" parameterType="xyz.lastyear.community.model.Question">
+    <!--
+    手写的自动累加用户评论问题次数sql语句
+    -->
+    update question
+    set
+    comment_count = comment_count + #{commentCount}
+    where id=#{id}
+  </update>
 </mapper>

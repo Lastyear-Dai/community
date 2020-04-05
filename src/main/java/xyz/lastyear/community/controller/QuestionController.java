@@ -15,7 +15,7 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
       @GetMapping("question/{id}")
-    public String question(@PathVariable("id")Integer id, Model model){
+    public String question(@PathVariable("id")Long id, Model model){
           QuestionDTO question = questionService.question(id);
           //累计用户阅读问题的次数
           questionService.udatequestionCreator(id);

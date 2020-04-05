@@ -14,7 +14,6 @@ import xyz.lastyear.community.model.Question;
 import xyz.lastyear.community.model.User;
 import xyz.lastyear.community.service.QuestionService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -31,7 +30,7 @@ public class PublishController {
     }
 
     @GetMapping("publish/{id}")
-    public String updatepublish(@PathVariable("id")Integer id,
+    public String updatepublish(@PathVariable("id") Long id,
                                 Model model){
         Question question = questionMapper.selectByPrimaryKey(id);
         model.addAttribute("title",question.getTitle());
@@ -44,7 +43,7 @@ public class PublishController {
     public String dopublish(@RequestParam("title")String title, @RequestParam("description")String description,
                             @RequestParam("tag")String tag,
                             HttpServletRequest request,
-                            Model model,@RequestParam(value = "id",required =false )Integer id){
+                            Model model,@RequestParam(value = "id",required =false )Long id){
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);

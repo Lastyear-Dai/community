@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import xyz.lastyear.community.dto.QaginationDTO;
 import xyz.lastyear.community.dto.QuestionDTO;
 import xyz.lastyear.community.exceptionError.ExceptionCode;
-import xyz.lastyear.community.exceptionError.IExceptionCode;
 import xyz.lastyear.community.exceptionError.myExceptionError;
 import xyz.lastyear.community.mapper.QuestionExtMapper;
 import xyz.lastyear.community.mapper.QuestionMapper;
@@ -69,7 +68,7 @@ public QaginationDTO list(Integer page, Integer number){
     return qaginationDTO;
 }
 
-public QaginationDTO Mylist(Integer id,Integer page,Integer number){
+public QaginationDTO Mylist(Long id, Integer page, Integer number){
     QaginationDTO qaginationDTO = new QaginationDTO();
     /*当前页码*/
     qaginationDTO.setPage(page);
@@ -107,7 +106,7 @@ public QaginationDTO Mylist(Integer id,Integer page,Integer number){
     return qaginationDTO;
 }
 
-public QuestionDTO question(Integer id){
+public QuestionDTO question(Long id){
     QuestionDTO questionDTO = new QuestionDTO();
     Question question = questionMapper.selectByPrimaryKey(id);
     if(question==null){
@@ -119,21 +118,28 @@ public QuestionDTO question(Integer id){
     return questionDTO;
 }
 
-    public void updatequestion(Integer id, Question question){
+    public void updatequestion(Long id, Question question){
         if(id!=null){
+
             QuestionExample questionExample2 = new QuestionExample();
             questionExample2.createCriteria().andIdEqualTo(question.getId());
             int update = questionMapper.updateByExample(question, questionExample2);
-            if(update==0){
+            if(update!=1){
                 throw new myExceptionError(ExceptionCode.QUESTION_NOT_FOUND);
             }
         }else{
-
+            //创建问题
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(System.currentTimeMillis());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
+
         }
     }
 
-    public void udatequestionCreator(Integer id) {
+    public void udatequestionCreator(Long id) {
         Question updatequestion = new Question();
         updatequestion.setId(id);
         updatequestion.setViewCount(1);
